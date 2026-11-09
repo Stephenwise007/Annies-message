@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Little Surprise for Annie</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Georgia, serif;
+  color: white;
+  background: linear-gradient(135deg,#190e2c,#623b79,#b45d91);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-x: hidden;
+}
+
+.heart {
+  position: fixed;
+  bottom: -30px;
+  animation: float 8s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes float {
+  to { transform: translateY(-110vh) rotate(360deg); }
+}
+
+.card {
+  width: 100%;
+  max-width: 430px;
+  padding: 30px 23px;
+  text-align: center;
+  border-radius: 25px;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.25);
+  box-shadow: 0 15px 45px #0005;
+}
+
+h1 {
+  color: #ffd0e8;
+  font-size: 34px;
+}
+
+.subtitle {
+  color: #f4dcec;
+  line-height: 1.6;
+}
+
+.moon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 21px;
+  margin: 25px 0 18px;
+}
+
+button {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  margin: 12px 0;
+  border: 1px solid #ffffff55;
+  border-radius: 14px;
+  color: white;
+  background: #ffffff20;
+  font-size: 17px;
+  cursor: pointer;
+  transition: .25s;
+}
+
+button:hover {
+  background: #ffffff40;
+  transform: scale(1.03);
+}
+
+#otherArea {
+  display: none;
+  margin-top: 15px;
+}
+
+input {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+#message {
+  display: none;
+  margin-top: 25px;
+  padding: 20px;
+  border-radius: 16px;
+  background: #ffffff20;
+  line-height: 1.7;
+  animation: reveal .7s ease;
+}
+
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+#message h3 {
+  color: #ffd0e8;
+}
+
+#again {
+  display: none;
+}
+
+.footer {
+  margin-top: 25px;
+  font-size: 13px;
+  color: #f4dcec;
+}
+</style>
+</head>
+
+<body>
+
+<div id="hearts"></div>
+
+<div class="card">
+
+<div class="moon">🌙✨</div>
+
+<h1>Hey Annie! 💗</h1>
+
+<p class="subtitle">
+I have a little question for you...<br>
+And your answer comes with a surprise! 💌
+</p>
+
+<h2>What's your favourite colour?</h2>
+
+<div id="choices">
+<button onclick="answer('black')">A. 🖤 Black</button>
+<button onclick="answer('red')">B. ❤️ Red</button>
+<button onclick="answer('blue')">C. 💙 Blue</button>
+<button onclick="showOther()">D. 🌈 Other</button>
+</div>
+
+<div id="otherArea">
+<input id="otherColour"
+placeholder="Tell me your favourite colour">
+<button onclick="submitOther()">Submit 💗</button>
+</div>
+
+<div id="message"></div>
+
+<div id="again">
+<button onclick="resetPage()">Choose again ↻</button>
+</div>
+
+<div class="footer">
+Made with a little thought and lots of stars ✨
+</div>
+
+</div>
+
+<script>
+
+function answer(choice) {
+
+let title = "";
+let text = "";
+
+if (choice === "black") {
+title = "Aww, Black! 🖤";
+text = "Goodnight, Annie! 🌙 May your night be peaceful and your dreams be as beautiful as you are. Sweet dreams! ❤️";
+}
+
+else if (choice === "red") {
+title = "Red! ❤️";
+text = "A lovely choice! May your days be filled with warmth, happiness and countless reasons to smile! ✨";
+}
+
+else if (choice === "blue") {
+title = "Blue! 💙";
+text = "A beautiful choice! May your life be as calm, peaceful and wonderful as a clear blue sky! 🌌";
+}
+
+showMessage(title, text);
+
+}
+
+function showOther() {
+document.getElementById("otherArea").style.display = "block";
+document.getElementById("otherColour").focus();
+}
+
+function submitOther() {
+
+let colour = document.getElementById("otherColour").value.trim();
+
+if (!colour) {
+alert("Please tell me your favourite colour!");
+return;
+}
+
+showMessage(
+"Oooh, " + colour + "! 🌈",
+"That's a lovely choice, Annie! May your world always be filled with beautiful colours and happy moments! 💗"
+);
+
+}
+
+function showMessage(title, text) {
+
+document.getElementById("choices").style.display = "none";
+document.getElementById("otherArea").style.display = "none";
+
+let box = document.getElementById("message");
+
+box.innerHTML = "<h3>" + title + "</h3><p>" + text + "</p>";
+box.style.display = "block";
+
+document.getElementById("again").style.display = "block";
+
+}
+
+function resetPage() {
+
+document.getElementById("choices").style.display = "block";
+document.getElementById("otherArea").style.display = "none";
+document.getElementById("otherColour").value = "";
+
+document.getElementById("message").style.display = "none";
+document.getElementById("again").style.display = "none";
+
+}
+
+function createHearts() {
+
+const symbols = ["💗","✨","💕","🌟"];
+
+for (let i = 0; i < 15; i++) {
+
+let heart = document.createElement("div");
+
+heart.className = "heart";
+heart.innerText = symbols[i % symbols.length];
+
+heart.style.left = Math.random() * 100 + "vw";
+heart.style.animationDelay = Math.random() * 8 + "s";
+heart.style.fontSize = (15 + Math.random() * 18) + "px";
+
+document.body.appendChild(heart);
+
+}
+
+}
+
+createHearts();
+
+</script>
+
+</body>
+</html>
